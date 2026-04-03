@@ -1,9 +1,9 @@
 ﻿using ScreenSound.Modelos;
 
 var linkinPark = new Banda("Linkin Park");
-linkinPark.AdicionarNota(10);
-linkinPark.AdicionarNota(8);
-linkinPark.AdicionarNota(6);
+linkinPark.AdicionarNota(new Avaliacao(10));
+linkinPark.AdicionarNota(new Avaliacao(8));
+linkinPark.AdicionarNota(new Avaliacao(6));
 
 var beatles = new Banda("The Beatles");
 
@@ -144,19 +144,28 @@ void ExibirTituloDaOpcao(string titulo)
 void AvaliarUmaBanda()
 {
     Console.Clear();
+    
     ExibirTituloDaOpcao("Avaliar banda");
+    
     Console.Write("Digite o nome da banda que deseja avaliar: ");
+    
     string nomeDaBanda = Console.ReadLine()!;
 
     if (bandasRegistradas.ContainsKey(nomeDaBanda))
     {
         Banda banda = bandasRegistradas[nomeDaBanda];
+
         Console.Write($"Qual a nota que a banda {nomeDaBanda} merece: ");
-        int nota = int.Parse(Console.ReadLine()!);
+        
+        Avaliacao nota = Avaliacao.Parse(Console.ReadLine()!);
         banda.AdicionarNota(nota);
-        Console.WriteLine($"\nA nota {nota} foi registrada com sucesso para a banda {nomeDaBanda}");
+        
+        Console.WriteLine($"\nA nota {nota.Nota} foi registrada com sucesso para a banda {nomeDaBanda}");
+        
         Thread.Sleep(2000);
+        
         Console.Clear();
+        
         ExibirOpcoesDoMenu();
     }
     else
@@ -165,9 +174,9 @@ void AvaliarUmaBanda()
         Console.WriteLine("Digite uma tecla para voltar ao menu principal");
         Console.ReadKey();
         Console.Clear();
+        
         ExibirOpcoesDoMenu();
     }
-
 }
 
 void ExibirDetalhes()
